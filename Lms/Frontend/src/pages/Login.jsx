@@ -6,20 +6,22 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { serverUrl } from '../App';
 import { ClipLoader } from 'react-spinners';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../redux/userSlice.js';
 const Login = () => {
     const [show, setShow] = useState(false)
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-
+    const dispatch = useDispatch()
 
     
     const handleLogin = async () => {
         setLoading(true);
         try{
             const result = await axios.post(`${serverUrl}/api/auth/login`, {email, password}, {withCredentials: true});
-            console.log(result);
+           dispatch(setUserData(result.data));
             setLoading(false);
             navigate('/')
             alert("login Successful")
