@@ -66,7 +66,7 @@ const Login = () => {
                 <button disabled={loading} onClick={handleLogin} type="submit" className="w-[80%] h-[40px] bg-black text-white cursor-pointer flex items-center justify-center rounded-[5px]">{loading ? <ClipLoader size={30} color='white'/> : "Login"}</button>
              
                 {/* Forget password--------- */}
-                <span className=' text-[13px] cursor-pointer text-[#585757]'>Forget your Password</span>
+                <span className=' text-[13px] cursor-pointer text-[#585757]' onClick={()=> navigate('/forget')}>Forget your Password</span>
 
 
                 {/* divider -------------- */}

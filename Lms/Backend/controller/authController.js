@@ -2,6 +2,7 @@ import User from "../model/userModel.js";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import genToken from "../config/token.js";
+import sendMail from "../config/sendMail.js";
 
 export const signUp = async (req, res) => {
     try{
@@ -72,5 +73,66 @@ export const logout = async (req, res) => {
     }
     catch (error) {
          return res.status(500).json({message: `Logout Error: ${error}`});
+    }
+}
+
+
+export const sendOTP = async (req, res) =>{
+    try{
+        const {email} = req.body
+        const user = await User.findOne({email})
+        if(!user){
+            return res.status(400).json({message: "User not Found"});
+        }
+        const otp = Math.floor(1000 + Math.random()*9000).toString()
+        user.resetOtp = otp, 
+        user.otoExpires = Date.now() + 5 * 60 * 1000,
+        user.isOtoVarifed = false
+        await user.save()
+        await sendMail(email, otp)
+        return res.status(200).json({message : "otp send successfully"})
+    }
+    catch(error){
+         return res.status(500).json({message: `send otp error: ${error}`});
+    }
+}
+
+
+export const verifyOTP = async (req, res)=> {
+    try{
+        const {email, otp} = req.body
+        const user = await User.findOne({email})
+        if(!user || user.resetOtp !== otp || user.otoExpires < Date.now()){
+            return res.status(400).json({message: "invalid otp"});
+        }
+        user.isOtoVarifed = true
+        user.resetOtp = undefined, 
+        user.otoExpires = undefined,
+
+        await user.save()
+        return res.status(200).json({message : "otp verified successfully"})
+    }
+    catch(error){
+        return res.status(500).json({message: `verify otp error: ${error}`});
+    }
+}
+
+export const resetPassword = async(req, res)=> {
+    try{
+        const {email, password} = req.body
+        const user = await User.findOne({email})
+        if(!user || !user.isOtoVarifed ){
+            return res.status(400).json({message: "otp varification is required"});
+        }
+
+        const hashPassword = await bcrypt.hash(password, 10)
+        user.password = hashPassword,
+        user.isOtoVarifed =false
+
+        await user.save()
+        return res.status(200).json({message : "reset password successfully"})
+    }
+    catch(error){
+         return res.status(500).json({message: `reset password error: ${error}`});
     }
 }

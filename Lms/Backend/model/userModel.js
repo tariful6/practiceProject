@@ -27,8 +27,20 @@ const userScheme = new mongoose.Schema({
     enrolledCources:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Course'
-    }]
+    }],
+    resetOtp:{
+        type:String
+    },
+    otoExpires:{
+        type:Date
+    },
+    isOtoVarifed:{
+        type:Boolean,
+        default:false
+    }
+
+
 }, {timestamps: true});
 
 const User = mongoose.model('User', userScheme);
-export default (User);
+export default User;
