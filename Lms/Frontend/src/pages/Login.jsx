@@ -8,6 +8,8 @@ import { serverUrl } from '../App';
 import { ClipLoader } from 'react-spinners';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice.js';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../utils/firebase.js';
 const Login = () => {
     const [show, setShow] = useState(false)
     const navigate = useNavigate();
@@ -30,6 +32,28 @@ const Login = () => {
         catch(error){
             console.log(error);
             setLoading(false);
+            alert(error.response.data.message)
+        }
+    }
+
+        const googleLogin = async () => {
+        try{
+            const response = await signInWithPopup(auth, provider)
+           
+            let user = response.user;
+            let name = user.displayName;
+            let email = user.email;
+            let role = "";
+            //  console.log(name, email);
+
+            const result = await axios.post(`${serverUrl}/api/auth/googleauth`, {name, email, role}, {withCredentials: true});
+            
+            dispatch(setUserData(result.data));
+            navigate('/')
+            alert("login Successful")
+        }
+        catch(error){
+            console.log(error);
             alert(error.response.data.message)
         }
     }
@@ -77,7 +101,7 @@ const Login = () => {
                 </div>
 
                 {/* google signin-------------- */}
-                <div className=" w-[80%] h-[40px] border-2 border-black rounded-[5px] flex items-center justify-center">Google</div>
+                <div onClick={googleLogin} className=" w-[80%] h-[40px] border-2 border-black rounded-[5px] flex items-center justify-center cursor-pointer">Google</div>
 
                 {/* Create accound-------------- */}
                  <div className="text-[#6f6f6f6]">Create a new accound ? <span className=" underline  underline-offset-1 text-black cursor-pointer" onClick={()=> navigate('/signup')}>Signin</span>

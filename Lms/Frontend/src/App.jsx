@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
-import getCurrentUser from './customHook/getCurrentUser';
+import getCurrentUser from './customHook/getCurrentUser.js';
 import { useSelector } from 'react-redux';
 import Profile from './pages/Profile';
 import ForgetPassword from './pages/ForgetPassword';
