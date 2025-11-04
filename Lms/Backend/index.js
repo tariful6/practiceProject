@@ -7,6 +7,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRouter from './route/userRoute.js';
+import courseRouter from './route/courseRoute.js';
 dotenv.config();
 
 // import authRouter from './route/authRoute.js';
@@ -25,6 +26,7 @@ app.use(cors({
 
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
+app.use('/api/course', courseRouter)
 
 
 

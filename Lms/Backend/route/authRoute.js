@@ -1,8 +1,8 @@
-import expresas from 'express';
+import express from 'express';
 import { googleAuth, login, logout, resetPassword, sendOTP, signUp, verifyOTP } from '../controller/authController.js';
 
 
-const authRouter = expresas.Router();
+const authRouter = express.Router();
 
 authRouter.post('/signup', signUp);
 authRouter.post('/login', login);

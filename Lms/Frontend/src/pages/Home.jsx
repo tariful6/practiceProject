@@ -1,6 +1,7 @@
 import Navbar from "../component/Navbar";
 import home1 from "../assets/home1.jpg"
 import Logos from "../component/Logos";
+import ExplorCources from "../component/ExplorCources";
 
 const Home = () => {
     return (
@@ -14,6 +15,7 @@ const Home = () => {
                 </div>
             </div>
             <Logos></Logos>
+            <ExplorCources></ExplorCources>
         </div>
     );
 };

@@ -15,6 +15,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false)
     const [showHem, setShowHem] = useState(false)
+    console.log(userData);
 
     const handleLoggedOut = async () => {
       try{
@@ -39,7 +40,7 @@ const Navbar = () => {
                     !userData &&  <FaUserCircle onClick={()=>{setShow(!show)}} className=' w-[50px] h-[50px] cursor-pointer fill-black'/>
                  }
                  {
-                  userData && 
+                  userData?.photoUrl ? <img onClick={()=>{setShow(!show)}}  className='w-[50px] h-[50px] rounded-full text-white flex justify-center items-center text-[20px] border-2 border-white bg-black cursor-pointer' src={userData?.photoUrl}></img> : 
                     <div onClick={()=>{setShow(!show)}} className='w-[50px] h-[50px] rounded-full text-white flex justify-center items-center text-[20px] border-2 border-white bg-black cursor-pointer'>
                         {
                             userData?.name?.slice(0,1).toUpperCase()
@@ -48,7 +49,7 @@ const Navbar = () => {
                  }
 
                 {
-                    userData?.role === 'educator' &&  <div className='px-[20px] py-[10px] border-2 border-white text-white bg-black rounded-[10px] text-[18px] font-light  cursor-pointer'>Dashbooard</div>
+                    userData?.role === 'educator' &&  <div className='px-[20px] py-[10px] border-2 border-white text-white bg-black rounded-[10px] text-[18px] font-light  cursor-pointer' onClick={()=>navigate('/dashboard')}>Dashbooard</div>
                 }
                  
                 { !userData ? 
@@ -72,7 +73,7 @@ const Navbar = () => {
                                {
                     !userData &&  <FaUserCircle className=' w-[50px] h-[50px] cursor-pointer fill-black'/>
                  }
-                 {userData && 
+                 {userData?.photoUrl ? <img  className='w-[50px] h-[50px] rounded-full text-white flex justify-center items-center text-[20px] border-2 border-white bg-black cursor-pointer' src={userData?.photoUrl}></img> : 
                     <div className='w-[50px] h-[50px] rounded-full text-white flex justify-center items-center text-[20px] border-2 border-white bg-black cursor-pointer'>
                         {
                             userData?.name?.slice(0,1).toUpperCase()
@@ -81,7 +82,7 @@ const Navbar = () => {
                     <div className='px-[20px] py-[10px] border-2 border-white text-white bg-black rounded-[10px] text-[18px] font-light  cursor-pointer' onClick={()=> navigate('/profile')}>My Profile</div>
                     <div className='px-[20px] py-[10px] border-2 border-white text-white bg-black rounded-[10px] text-[18px] font-light  cursor-pointer'>My Cources</div>
                     {
-                    userData?.role === 'educator' &&  <div className='px-[20px] py-[10px] border-2 border-white text-white bg-black rounded-[10px] text-[18px] font-light  cursor-pointer'>Dashbooard</div>}
+                    userData?.role === 'educator' &&  <div className='px-[20px] py-[10px] border-2 border-white text-white bg-black rounded-[10px] text-[18px] font-light  cursor-pointer' onClick={()=>navigate('/dashboard')}>Dashbooard</div>}
                     { !userData ? 
                      <span className='px-[20px] py-[10px] border-2 border-white text-white bg-black rounded-[10px] text-[18px] font-light  cursor-pointer' onClick={()=> navigate('/login')}>Login</span>
                     :

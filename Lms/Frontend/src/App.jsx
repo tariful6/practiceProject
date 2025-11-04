@@ -8,12 +8,17 @@ import { useSelector } from 'react-redux';
 import Profile from './pages/Profile';
 import ForgetPassword from './pages/ForgetPassword';
 import EditProfile from './pages/EditProfile.jsx';
+import Dashboard from './pages/Educator/Dashboard.jsx';
+import Courses from './pages/Educator/Courses.jsx';
+import CreateCourses from './pages/Educator/CreateCourses';
+
 
 export const serverUrl ='http://localhost:8000'
 
 const App = () => {
     getCurrentUser()
     const {userData} = useSelector(state => state.user);
+    console.log(userData);
     return (
         <>
         <Routes>
@@ -23,6 +28,22 @@ const App = () => {
             <Route path='/profile' element={userData ? <Profile /> : <Navigate to={"/signup"}/>}/>
             <Route path='/forget' element={userData ? <ForgetPassword /> : <Navigate to={"/signup"}/>}/>
             <Route path='/editprofile' element={userData ? <EditProfile /> : <Navigate to={"/signup"}/>}/>
+
+             <Route path='/dashboard' element={userData?.role ==="educator"  ? <Dashboard /> : <Navigate to={"/signup"}/>}/> 
+             
+             <Route path='/courses' element={userData?.role ==="educator"  ? <Courses /> : <Navigate to={"/signup"}/>}/> 
+
+             <Route path='/courses' element={userData?.role ==="educator"  ? <Courses /> : <Navigate to={"/signup"}/>}/> 
+             
+
+             <Route path='/createcourse' element={userData?.role ==="educator"  ? <CreateCourses /> : <Navigate to={"/signup"}/>}/> 
+             
+
+
+            {/* <Route path='/dashboard' element={!userData ? <Dashboard /> : <Navigate to={"/"}/>} /> */}
+         
+
+
         </Routes>
             
         </>
