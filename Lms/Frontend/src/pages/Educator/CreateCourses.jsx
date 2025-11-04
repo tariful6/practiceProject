@@ -32,11 +32,11 @@ const CreateCourses = () => {
 
             <form onSubmit={(e)=> e.preventDefault()}>
                 <div>
-                    <lebel htmlfor="">Course title</lebel>
+                    <label htmlfor="">Course title</label>
                     <input onChange={(e)=> setTitle(e.target.value)} value={title} className='px-4 border-2 border-amber-300' type="text" id='' />
                 </div>
                 <div>
-                    <lebel htmlfor="">Category</lebel>
+                    <label>Category</label>
                     <select name="" id="" onChange={(e)=> setCategory(e.target.value)}>
                         <option value="">Select Category</option>
                         <option value="App Development">App Development</option>
