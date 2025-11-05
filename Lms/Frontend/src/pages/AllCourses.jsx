@@ -3,6 +3,7 @@ import img from "../assets/SearchAi.png"
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import Card from "../component/Card";
+import Navbar from "../component/Navbar";
 
 const AllCourses = () => {
     const navigate = useNavigate()
@@ -10,6 +11,7 @@ const AllCourses = () => {
     console.log(courseData);
     const [category, setCategory] = useState([])
     const [filterCourses, setFilterCourses] = useState([])
+    const [isSlidebarVisable, setIsSlidebarVisable] = useState(false)
 
     const toogleCategory = (e)=>{
         if(category.includes(e.target.value)){
@@ -39,8 +41,11 @@ const AllCourses = () => {
 
     return (
         <div className=" flex min-h-screen bg-gray-50">
+            <Navbar></Navbar>
+            <button onClick={()=> setIsSlidebarVisable(!isSlidebarVisable)} className=" fixed top-20 left-4 z-50 bg-white text-black px-3 py-1 rounded md:hidden border-2 border-black ">{isSlidebarVisable? "Show" : "Hide"}</button>
+
              {/* Sidebar  ------- */}
-             <aside className=" w-[260px] h-screen overflow-y-auto bg-black fixed top-0 left-0 p-6 py-[130px] border-r border-gray-200 shadow-md transition-transform duration-300 z-5">
+             <aside className={` w-[260px] h-screen overflow-y-auto bg-black fixed top-0 left-0 p-6 py-[90px] border-r border-gray-200 shadow-md transition-transform duration-300 z-5 ${isSlidebarVisable ? " translate-x-0": "-translate-x-full md:block md:translate-x-0"}`}>
 
                 <div className=" flex items-center gap-5">
                         <h4 className="p-1 bg-amber-300 my-3" onClick={()=> navigate("/")} >Back</h4>
@@ -91,7 +96,7 @@ const AllCourses = () => {
  
              </aside>
                             {/* main --------------------- */}
-                <main className=" w-full transition-all duration-300 py-[130] md:pl-[300px] flex items-center justify-center md:justify-start flex-wrap gap-6 px-[10px]">
+                <main className=" w-full transition-all duration-300 py-[130] md:pl-[300px] flex items-center justify-center md:justify-start flex-wrap gap-6 px-[10px]  mt-28">
 
                    
                     {

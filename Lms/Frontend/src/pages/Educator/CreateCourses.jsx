@@ -32,7 +32,7 @@ const CreateCourses = () => {
 
             <form onSubmit={(e)=> e.preventDefault()}>
                 <div>
-                    <label htmlfor="">Course title</label>
+                    <label >Course title</label>
                     <input onChange={(e)=> setTitle(e.target.value)} value={title} className='px-4 border-2 border-amber-300' type="text" id='' />
                 </div>
                 <div>

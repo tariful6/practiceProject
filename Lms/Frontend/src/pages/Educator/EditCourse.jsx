@@ -106,16 +106,16 @@ const EditCourse = () => {
 
     const handleRemoveCourse = async ()=>{
         setLoading1(true)
-        const result = await axios.delete(`${serverUrl}/api/course/remove/${courseId}`, {withCredentials: true});
-        console.log(result.data);
-        const filterCourses = courseData.filter(course => course._id !== courseId)
-        dispatch(setCourseData(filterCourses))
-        setLoading1(false)
-        alert("remove successfful")
-        navigate("/courses")
+   
 
         try {
-            //
+             const result = await axios.delete(`${serverUrl}/api/course/remove/${courseId}`, {withCredentials: true});
+                console.log(result.data);
+                const filterCourses = courseData.filter(course => course._id !== courseId)
+                dispatch(setCourseData(filterCourses))
+                setLoading1(false)
+                alert("remove successfful")
+                navigate("/courses")
         } catch (error) {
             setLoading1(false)
             console.log(error.response.data.message);
@@ -123,8 +123,10 @@ const EditCourse = () => {
     }
     return (
         <div className=' py-16'>
-            <button onClick={()=> navigate('/courses')} className=' p-4 bg-green-400'>Back to course </button>
-            <button onClick={()=> navigate('/')} className=' p-4 bg-blue-400'>go to lecture page</button>
+            <div className=' flex gap-6'>
+            <button onClick={()=> navigate('/courses')} className=' p-4 bg-red-400'>Back to course </button>
+            <button onClick={()=> navigate(`/createlecture/${selectedCourse._id}`)}  className=' p-4 bg-blue-400'>go to lecture page</button>
+            </div>
             <div className=' py-9'>
                 <h2>Course information</h2>
 
@@ -137,6 +139,8 @@ const EditCourse = () => {
 
             </div>
             <div>
+      
+
                 <form onSubmit={(e)=> e.preventDefault()}>
                     <div>
                         <label>Title</label>
