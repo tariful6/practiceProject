@@ -4,6 +4,8 @@ import emptyJpg from "../../assets/empty.jpg"
 import { serverUrl } from '../../App';
 import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCourseData } from '../../redux/courseSlice';
 const EditCourse = () => {
     const navigate = useNavigate()
     const thumb = useRef()
@@ -21,6 +23,9 @@ const EditCourse = () => {
     const [frontendImage, setFrontendImage] = useState(emptyJpg)
     const [backendImage, setBackendImage] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [loading1, setLoading1] = useState(false)
+    const dispatch = useDispatch()
+    const {courseData} = useSelector(state => state.course)
 
     const handleThumbnail = (e) => {
         const file = e.target.files[0]
@@ -73,6 +78,19 @@ const EditCourse = () => {
             const result = await axios.post(`${serverUrl}/api/course/editcourse/${courseId}`, 
             formData, {withCredentials: true});
             console.log(result.data);
+
+            const updateData = result.data
+            if(updateData.isPublished){
+                const updateCourses = courseData.map(course => course._id === courseId ? updateData : course)
+                if(!courseData.some(c => c._id === courseId)){
+                    updateCourses.push(updateData)
+                }
+                dispatch(setCourseData(updateCourses))
+            }
+            else{
+                const filterCourses = courseData.filter(course => course._id !== courseId)
+                dispatch(setCourseData(filterCourses))
+            }
             setLoading(false)
             navigate("/courses")
             alert("course Updated")
@@ -86,7 +104,23 @@ const EditCourse = () => {
     }
 
 
-    // 10 : 49m running --------------------------
+    const handleRemoveCourse = async ()=>{
+        setLoading1(true)
+        const result = await axios.delete(`${serverUrl}/api/course/remove/${courseId}`, {withCredentials: true});
+        console.log(result.data);
+        const filterCourses = courseData.filter(course => course._id !== courseId)
+        dispatch(setCourseData(filterCourses))
+        setLoading1(false)
+        alert("remove successfful")
+        navigate("/courses")
+
+        try {
+            //
+        } catch (error) {
+            setLoading1(false)
+            console.log(error.response.data.message);
+        }
+    }
     return (
         <div className=' py-16'>
             <button onClick={()=> navigate('/courses')} className=' p-4 bg-green-400'>Back to course </button>
@@ -99,7 +133,7 @@ const EditCourse = () => {
                      <button className='p-3 bg-blue-300' onClick={()=> setPublished(!isPublished)}>Click to UnPublish</button>
                 }
                
-                <button className='p-3 bg-red-300'>Remove course</button>
+                <button onClick={handleRemoveCourse} className='p-3 bg-red-300'>Remove course</button>
 
             </div>
             <div>
